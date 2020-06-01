@@ -1,3 +1,5 @@
+'use strict';
+
 var CLOUD_WIDTH = 420;
 var CLOUD_HEIGHT = 270;
 var CLOUD_X = 100;
@@ -38,7 +40,7 @@ window.renderStatistics = function (ctx, players, times) {
 
     ctx.fillStyle = '#000';
     ctx.font = '16px PT Mono';
-    ctx.fillText(Math.round(parseInt(times[i])), CLOUD_X + BAR_GAP + (BAR_WIDTH + BAR_GAP) * i, CLOUD_Y + BAR_GAP + GAP);
+    ctx.fillText(Math.round(parseInt(times[i], 10)), CLOUD_X + BAR_GAP + (BAR_WIDTH + BAR_GAP) * i, CLOUD_Y + BAR_GAP + GAP);
 
     if (players[i] === 'Вы') {
       ctx.fillStyle = 'rgba(255, 0, 0, 1)';
