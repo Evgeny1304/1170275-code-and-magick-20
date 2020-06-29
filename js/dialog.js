@@ -7,6 +7,9 @@
   var userNameInput = document.querySelector('.setup-user-name');
   var similarWizardList = document.querySelector('.setup-similar-list');
 
+  var setupPopupTop = window.getComputedStyle(setupPopup).getPropertyValue('top');
+  var setupPopupLeft = window.getComputedStyle(setupPopup).getPropertyValue('left');
+
   var wizards = window.data.getWizards();
 
   var onSetupPopupEscPress = function (evt) {
@@ -14,6 +17,8 @@
   };
 
   var openSetupPopup = function () {
+    setupPopup.style.top = setupPopupTop;
+    setupPopup.style.left = setupPopupLeft;
     setupPopup.classList.remove('hidden');
     setupPopup.querySelector('.setup-similar').classList.remove('hidden');
     window.wizard.render(wizards);
