@@ -7,11 +7,22 @@
   var userNameInput = document.querySelector('.setup-user-name');
   var similarWizardList = document.querySelector('.setup-similar-list');
   var dialogHandle = setupPopup.querySelector('.upload');
+  var form = setupPopup.querySelector('.setup-wizard-form');
 
   var setupPopupTop = window.getComputedStyle(setupPopup).getPropertyValue('top');
   var setupPopupLeft = window.getComputedStyle(setupPopup).getPropertyValue('left');
 
-  var wizards = window.data.getWizards();
+  var errorHandler = function (errorMessage) {
+    var node = document.createElement('div');
+    node.style = 'z-index: 100; margin: 0 auto; text-align: center; background-color: red;';
+    node.style.position = 'absolute';
+    node.style.left = 0;
+    node.style.right = 0;
+    node.style.fontSize = '30px';
+
+    node.textContent = errorMessage;
+    document.body.insertAdjacentElement('afterbegin', node);
+  };
 
   var onSetupPopupEscPress = function (evt) {
     window.util.isEscEvent(evt, closeSetupPopup);
@@ -22,7 +33,7 @@
     setupPopup.style.left = setupPopupLeft;
     setupPopup.classList.remove('hidden');
     setupPopup.querySelector('.setup-similar').classList.remove('hidden');
-    window.wizard.render(wizards);
+    window.backend.load(window.wizard.render, errorHandler);
     document.addEventListener('keydown', onSetupPopupEscPress);
   };
 
@@ -33,6 +44,13 @@
       document.removeEventListener('keydown', onSetupPopupEscPress);
     }
   };
+
+  form.addEventListener('submit', function (evt) {
+    window.backend.save(new FormData(form), function () {
+      setupPopup.classList.add('hidden');
+    }, errorHandler);
+    evt.preventDefault();
+  });
 
   setupOpen.addEventListener('click', function () {
     openSetupPopup();
