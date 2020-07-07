@@ -4,6 +4,8 @@
   var ENTER_KEY = 'Enter';
   var ESC_KEY = 'Escape';
   var TIMEOUT_IN_MS = 10000;
+  var DEBOUNCE_INTERVAL = 500;
+
   var StatusCode = {
     OK: 200
   };
@@ -54,6 +56,32 @@
 
       xhr.open(method, url);
       xhr.send(data);
+    },
+
+    errorHandler: function (errorMessage) {
+      var node = document.createElement('div');
+      node.style = 'z-index: 100; margin: 0 auto; text-align: center; background-color: red;';
+      node.style.position = 'absolute';
+      node.style.left = 0;
+      node.style.right = 0;
+      node.style.fontSize = '30px';
+
+      node.textContent = errorMessage;
+      document.body.insertAdjacentElement('afterbegin', node);
+    },
+
+    debounce: function (cb) {
+      var lastTimeout = null;
+
+      return function () {
+        var parameters = arguments;
+        if (lastTimeout) {
+          window.clearTimeout(lastTimeout);
+        }
+        lastTimeout = window.setTimeout(function () {
+          cb.apply(null, parameters);
+        }, DEBOUNCE_INTERVAL);
+      };
     }
   };
 })();

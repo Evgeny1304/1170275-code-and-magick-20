@@ -19,7 +19,9 @@
 
   window.wizard = {
     render: function (objects) {
-      for (var i = 0; i < MAX_WIZARD_COUNT; i++) {
+      var wizardsCount = objects.length > MAX_WIZARD_COUNT ? MAX_WIZARD_COUNT : objects.length;
+      similarWizardList.innerHTML = '';
+      for (var i = 0; i < wizardsCount; i++) {
         fragment.appendChild(renderWizard(objects[i]));
       }
       similarWizardList.appendChild(fragment);
